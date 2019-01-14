@@ -1,0 +1,456 @@
+<Type Name="VisualStateManager" FullName="System.Windows.VisualStateManager">
+  <Metadata><Meta Name="ms.openlocfilehash" Value="62802edb0070bc2002b46dd7fadfc15159e10f8b" /><Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="zh-TW" /><Meta Name="ms.lasthandoff" Value="11/29/2018" /><Meta Name="ms.locfileid" Value="52594101" /></Metadata><TypeSignature Language="C#" Value="public class VisualStateManager : System.Windows.DependencyObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit VisualStateManager extends System.Windows.DependencyObject" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.VisualStateManager" />
+  <TypeSignature Language="VB.NET" Value="Public Class VisualStateManager&#xA;Inherits DependencyObject" />
+  <TypeSignature Language="C++ CLI" Value="public ref class VisualStateManager : System::Windows::DependencyObject" />
+  <TypeSignature Language="F#" Value="type VisualStateManager = class&#xA;    inherit DependencyObject" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationFramework</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Windows.DependencyObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>管理控制項在狀態之間轉換的狀態與邏輯。</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Windows.VisualStateManager>可讓您指定控制項的外觀，控制項的狀態，當處於特定狀態，而且控制項變更狀態。 比方說，<xref:System.Windows.Controls.Button>未按下時，於按下時，可能有稍微不同的外觀。 兩個指出<xref:System.Windows.Controls.Button>定義按下時，對應到 (`"Pressed"`) 並不是 (`"Normal"`)。 當處於狀態控制項的外觀由定義<xref:System.Windows.VisualState>。 A<xref:System.Windows.VisualState>包含的集合<xref:System.Windows.Media.Animation.Storyboard>指定控制項的外觀如何變更當控制項處於該狀態的物件。 藉由設定控制項新增視覺狀態`VisualStateManager.VisualStateGroups`附加在控制項上的屬性。 每個<xref:System.Windows.VisualStateGroup>包含的集合<xref:System.Windows.VisualState>互斥的物件。 也就是說，此控制項一律會在每一個狀態的<xref:System.Windows.VisualStateGroup>。  
+  
+ <xref:System.Windows.VisualStateManager>也可讓您指定當控制項進入特定狀態時。 若要變更狀態，您應該呼叫的方法取決於您的案例。 如果您建立使用的控制項<xref:System.Windows.VisualStateManager>在其<xref:System.Windows.Controls.ControlTemplate>，呼叫<xref:System.Windows.VisualStateManager.GoToState%2A>方法。 如需有關如何建立可控制使用<xref:System.Windows.VisualStateManager>，請參閱 <<c2> [ 建立具有可自訂外觀](~/docs/framework/wpf/controls/creating-a-control-that-has-a-customizable-appearance.md)。 如果您使用<xref:System.Windows.VisualStateManager>之外<xref:System.Windows.Controls.ControlTemplate>(例如，如果您使用<xref:System.Windows.VisualStateManager>中<xref:System.Windows.Controls.UserControl>或單一項目中)，呼叫<xref:System.Windows.VisualStateManager.GoToElementState%2A>方法。 在任一情況下，<xref:System.Windows.VisualStateManager>執行，才能適當地啟動及停止與相關的狀態相關聯的分鏡腳本的邏輯。 例如，假設控制項定義狀態，`State1`和`State2`，每個都有與其相關聯的分鏡腳本。 如果控制項處於`State1`，您傳遞`State2`來<xref:System.Windows.VisualStateManager.GoToState%2A>或<xref:System.Windows.VisualStateManager.GoToElementState%2A>，則<xref:System.Windows.VisualStateManager>中啟動分鏡腳本`State2`並停止在分鏡腳本`State1`。  
+  
+ 所包含的控制項[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]使用<xref:System.Windows.VisualStateManager>變更視覺狀態。 當您建立<xref:System.Windows.Controls.ControlTemplate>隨附的控制項[!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)]，您可以新增<xref:System.Windows.VisualState>物件來控制<xref:System.Windows.Controls.ControlTemplate>處於特定狀態指定控制項的外觀。 若要尋找的視覺狀態名稱所包含的控制項[!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)]，請參閱 <<c2> [ 控制項的樣式和範本](~/docs/framework/wpf/controls/control-styles-and-templates.md)。 定義控制項的邏輯控制代碼，因此您不需要採取任何動作以外的狀態之間轉換<xref:System.Windows.VisualState>在新的物件<xref:System.Windows.Controls.ControlTemplate>。 如需如何建立現有控制項的控制項範本的詳細資訊，請參閱[透過建立 ControlTemplate 自訂現有控制項的外觀](~/docs/framework/wpf/controls/customizing-the-appearance-of-an-existing-control.md)。  
+  
+ 如果您想要實作您自己的邏輯狀態之間轉換時，您必須繼承自<xref:System.Windows.VisualStateManager>，覆寫<xref:System.Windows.VisualStateManager.GoToStateCore%2A>方法，並設定<xref:System.Windows.VisualStateManager.CustomVisualStateManager%2A?displayProperty=nameWithType>附加屬性使用的自訂邏輯的控制項上。  
+  
+   
+  
+## Examples  
+ 下列範例會建立<xref:System.Windows.Shapes.Rectangle>，並將<xref:System.Windows.VisualStateGroup>名為`CommonStates`到`VisualStateManager.VisualStatesGroups`附加屬性。 此範例會定義`MouseOver`並`Normal`<xref:System.Windows.VisualState>中的物件`CommonStates` <xref:System.Windows.VisualStateGroup>。 當使用者把滑鼠指標移動過<xref:System.Windows.Shapes.Rectangle>，它從變成紅色綠色移轉一個半秒。 當使用者移動滑鼠離開矩形，<xref:System.Windows.Controls.Grid>立即變更回為紅色。 請注意，`Normal`狀態不會定義<xref:System.Windows.Media.Animation.Storyboard>。 A<xref:System.Windows.Media.Animation.Storyboard>由於不需要時<xref:System.Windows.Shapes.Rectangle>從轉換`MouseOver`狀態`Normal`狀態，<xref:System.Windows.Media.Animation.Storyboard>如`MouseOver`停止和<xref:System.Windows.Media.SolidColorBrush.Color%2A>屬性<xref:System.Windows.Media.SolidColorBrush>傳回為紅色。  
+  
+ [!code-xaml[VSMCustomControl#VSMNoTemplate](~/samples/snippets/csharp/VS_Snippets_Wpf/vsmcustomcontrol/csharp/window1.xaml#vsmnotemplate)]  
+  
+ 下列範例示範呼叫與上述範例中所定義的事件處理常式<xref:System.Windows.VisualStateManager.GoToElementState%2A>狀態之間轉換的方法。 在上述範例中的矩形是否屬於<xref:System.Windows.Controls.ControlTemplate>，範例會具有呼叫<xref:System.Windows.VisualStateManager.GoToState%2A>方法。  
+  
+ [!code-csharp[VSMCustomControl#GoToElementState](~/samples/snippets/csharp/VS_Snippets_Wpf/vsmcustomcontrol/csharp/window1.xaml.cs#gotoelementstate)]
+ [!code-vb[VSMCustomControl#GoToElementState](~/samples/snippets/visualbasic/VS_Snippets_Wpf/vsmcustomcontrol/visualbasic/window1.xaml.vb#gotoelementstate)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public VisualStateManager ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; VisualStateManager();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>初始化 <see cref="T:System.Windows.VisualStateManager" /> 類別的新執行個體。</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CustomVisualStateManager">
+      <MemberSignature Language="C#" Value="see GetCustomVisualStateManager, and SetCustomVisualStateManager" />
+      <MemberSignature Language="ILAsm" Value="see GetCustomVisualStateManager, and SetCustomVisualStateManager" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.VisualStateManager.CustomVisualStateManager" />
+      <MemberSignature Language="VB.NET" Value="see GetCustomVisualStateManager, and SetCustomVisualStateManager" />
+      <MemberSignature Language="F#" Value="see GetCustomVisualStateManager, and SetCustomVisualStateManager" Usage="see GetCustomVisualStateManager, and SetCustomVisualStateManager" />
+      <MemberType>AttachedProperty</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>取得或設定 <see cref="T:System.Windows.VisualStateManager" /> 物件，可轉換控制項的狀態。</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ 如果<xref:System.Windows.VisualStateManager.CustomVisualStateManager%2A>已`null`，則<xref:System.Windows.VisualStateManager>狀態之間會使用自己的邏輯轉換。 如果您想要實作您自己的邏輯狀態之間轉換，建立類別繼承自<xref:System.Windows.VisualStateManager>，並覆寫<xref:System.Windows.VisualStateManager.GoToStateCore%2A>方法。 若要使用自訂類別，將<xref:System.Windows.VisualStateManager.CustomVisualStateManager%2A>屬性，以您的自訂類型的物件。  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CustomVisualStateManagerProperty">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty CustomVisualStateManagerProperty;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty CustomVisualStateManagerProperty" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.VisualStateManager.CustomVisualStateManagerProperty" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly CustomVisualStateManagerProperty As DependencyProperty " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ CustomVisualStateManagerProperty;" />
+      <MemberSignature Language="F#" Value=" staticval mutable CustomVisualStateManagerProperty : System.Windows.DependencyProperty" Usage="System.Windows.VisualStateManager.CustomVisualStateManagerProperty" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>識別 <see cref="P:System.Windows.VisualStateManager.CustomVisualStateManager" /> 相依性屬性。</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetCustomVisualStateManager">
+      <MemberSignature Language="C#" Value="public static System.Windows.VisualStateManager GetCustomVisualStateManager (System.Windows.FrameworkElement obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.VisualStateManager GetCustomVisualStateManager(class System.Windows.FrameworkElement obj) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.GetCustomVisualStateManager(System.Windows.FrameworkElement)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetCustomVisualStateManager (obj As FrameworkElement) As VisualStateManager" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::VisualStateManager ^ GetCustomVisualStateManager(System::Windows::FrameworkElement ^ obj);" />
+      <MemberSignature Language="F#" Value="static member GetCustomVisualStateManager : System.Windows.FrameworkElement -&gt; System.Windows.VisualStateManager" Usage="System.Windows.VisualStateManager.GetCustomVisualStateManager obj" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.VisualStateManager</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Windows.FrameworkElement" />
+      </Parameters>
+      <Docs>
+        <param name="obj">要從其取得 <see cref="P:System.Windows.VisualStateManager.CustomVisualStateManager" /> 附加屬性的項目。</param>
+        <summary>取得 <see cref="P:System.Windows.VisualStateManager.CustomVisualStateManager" /> 附加屬性。</summary>
+        <returns>會轉換控制項狀態的可見狀態管理員。</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetVisualStateGroups">
+      <MemberSignature Language="C#" Value="public static System.Collections.IList GetVisualStateGroups (System.Windows.FrameworkElement obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Collections.IList GetVisualStateGroups(class System.Windows.FrameworkElement obj) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.GetVisualStateGroups(System.Windows.FrameworkElement)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetVisualStateGroups (obj As FrameworkElement) As IList" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Collections::IList ^ GetVisualStateGroups(System::Windows::FrameworkElement ^ obj);" />
+      <MemberSignature Language="F#" Value="static member GetVisualStateGroups : System.Windows.FrameworkElement -&gt; System.Collections.IList" Usage="System.Windows.VisualStateManager.GetVisualStateGroups obj" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8">
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Collections.IList</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Windows.FrameworkElement" />
+      </Parameters>
+      <Docs>
+        <param name="obj">要從其取得 <see cref="P:System.Windows.VisualStateManager.VisualStateGroups" /> 附加屬性的項目。</param>
+        <summary>取得 <see cref="P:System.Windows.VisualStateManager.VisualStateGroups" /> 附加屬性。</summary>
+        <returns><see cref="T:System.Windows.VisualStateGroup" /> 物件的集合，與特定物件相關聯。</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GoToElementState">
+      <MemberSignature Language="C#" Value="public static bool GoToElementState (System.Windows.FrameworkElement stateGroupsRoot, string stateName, bool useTransitions);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool GoToElementState(class System.Windows.FrameworkElement stateGroupsRoot, string stateName, bool useTransitions) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.GoToElementState(System.Windows.FrameworkElement,System.String,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GoToElementState (stateGroupsRoot As FrameworkElement, stateName As String, useTransitions As Boolean) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool GoToElementState(System::Windows::FrameworkElement ^ stateGroupsRoot, System::String ^ stateName, bool useTransitions);" />
+      <MemberSignature Language="F#" Value="static member GoToElementState : System.Windows.FrameworkElement * string * bool -&gt; bool" Usage="System.Windows.VisualStateManager.GoToElementState (stateGroupsRoot, stateName, useTransitions)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stateGroupsRoot" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="stateName" Type="System.String" />
+        <Parameter Name="useTransitions" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="stateGroupsRoot">包含 <see cref="T:System.Windows.VisualStateManager" /> 的根項目。</param>
+        <param name="stateName">要切換的目標狀態。</param>
+        <param name="useTransitions"><see langword="true" /> 表示使用 <see cref="T:System.Windows.VisualTransition" /> 物件在狀態之間轉換，否則為 <see langword="false" />。</param>
+        <summary>會讓項目在兩個狀態之間轉換。 使用此方法轉換應用程式所定義的狀態，而不是控制項所定義的狀態。</summary>
+        <returns>如果控制項成功轉換到新的狀態，則為 <see langword="true" />，否則為 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ 呼叫<xref:System.Windows.VisualStateManager.GoToElementState%2A>狀態以外的項目上的方法，以變更<xref:System.Windows.Controls.ControlTemplate>(例如，如果您使用<xref:System.Windows.VisualStateManager>中<xref:System.Windows.DataTemplate>或<xref:System.Windows.Window>)。 呼叫<xref:System.Windows.VisualStateManager.GoToState%2A>方法，如果您要變更使用的控制項中的狀態<xref:System.Windows.VisualStateManager>在其<xref:System.Windows.Controls.ControlTemplate>。  
+  
+   
+  
+## Examples  
+ 下列範例會建立應用程式會提示使用者猜測的數字，介於 1 到 100 之間。  當使用者輸入數字時，應用程式會指出先前的猜測是否過高、 太低，或正確。  下列[!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)]會建立應用程式的使用者介面，並定義 4 個狀態： `TooLow`， `TooHigh`， `Correct`，和`Guessing`。 當應用程式開始時，就在`Guessing`狀態。 。  
+  
+ [!code-xaml[VSMGoToElementState#GoToElementStateXaml](~/samples/snippets/csharp/VS_Snippets_Wpf/vsmgotoelementstate/csharp/mainwindow.xaml#gotoelementstatexaml)]  
+  
+ 下列程式碼會顯示應用程式邏輯。  當使用者輸入數字，並按一下按鈕時，應用程式會呼叫<xref:System.Windows.VisualStateManager.GoToElementState%2A>轉為`TooHigh`， `TooLow`，或`Correct`提供回饋給使用者的猜測。  若要試用此範例中，呼叫`GenerateNumber`應用程式開始時的方法。  
+  
+ [!code-csharp[VSMGoToElementState#GoToElementStateCode](~/samples/snippets/csharp/VS_Snippets_Wpf/vsmgotoelementstate/csharp/mainwindow.xaml.cs#gotoelementstatecode)]
+ [!code-vb[VSMGoToElementState#GoToElementStateCode](~/samples/snippets/visualbasic/VS_Snippets_Wpf/vsmgotoelementstate/visualbasic/mainwindow.xaml.vb#gotoelementstatecode)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="stateGroupsRoot" /> 為 <see langword="null" />。  
+  
+-或- 
+ <paramref name="stateName" /> 為 <see langword="null" />。</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GoToState">
+      <MemberSignature Language="C#" Value="public static bool GoToState (System.Windows.FrameworkElement control, string stateName, bool useTransitions);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool GoToState(class System.Windows.FrameworkElement control, string stateName, bool useTransitions) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.GoToState(System.Windows.FrameworkElement,System.String,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GoToState (control As FrameworkElement, stateName As String, useTransitions As Boolean) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool GoToState(System::Windows::FrameworkElement ^ control, System::String ^ stateName, bool useTransitions);" />
+      <MemberSignature Language="F#" Value="static member GoToState : System.Windows.FrameworkElement * string * bool -&gt; bool" Usage="System.Windows.VisualStateManager.GoToState (control, stateName, useTransitions)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="control" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="stateName" Type="System.String" />
+        <Parameter Name="useTransitions" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="control">控制項要在之間轉換的兩個狀態。</param>
+        <param name="stateName">要切換的目標狀態。</param>
+        <param name="useTransitions"><see langword="true" /> 表示使用 <see cref="T:System.Windows.VisualTransition" /> 物件在狀態之間轉換，否則為 <see langword="false" />。</param>
+        <summary>使控制項在兩個狀態之間切換。 使用這個方法，即可轉換具有 <see cref="T:System.Windows.Controls.ControlTemplate" /> 之控制項的狀態。</summary>
+        <returns>如果控制項成功轉換到新的狀態，則為 <see langword="true" />，否則為 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ 呼叫<xref:System.Windows.VisualStateManager.GoToState%2A>方法，如果您要變更使用的控制項中的狀態<xref:System.Windows.VisualStateManager>在其<xref:System.Windows.Controls.ControlTemplate>。 呼叫<xref:System.Windows.VisualStateManager.GoToElementState%2A>狀態以外的項目上的方法，以變更<xref:System.Windows.Controls.ControlTemplate>(例如，如果您使用<xref:System.Windows.VisualStateManager>在<xref:System.Windows.Controls.UserControl>或單一項目中)。  
+  
+   
+  
+## Examples  
+ 下列範例示範使用的控制項<xref:System.Windows.VisualStateManager.GoToState%2A>狀態之間轉換的方法。 完整的範例，請參閱 <<c0> [ 建立控制項，具有可自訂外觀](~/docs/framework/wpf/controls/creating-a-control-that-has-a-customizable-appearance.md)。  
+  
+ [!code-csharp[VSMCustomControl#UpdateStates](~/samples/snippets/csharp/VS_Snippets_Wpf/vsmcustomcontrol/csharp/numericupdown.cs#updatestates)]
+ [!code-vb[VSMCustomControl#UpdateStates](~/samples/snippets/visualbasic/VS_Snippets_Wpf/vsmcustomcontrol/visualbasic/numericupdown.vb#updatestates)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="control" /> 為 <see langword="null" />。  
+  
+-或- 
+ <paramref name="stateName" /> 為 <see langword="null" />。</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GoToStateCore">
+      <MemberSignature Language="C#" Value="protected virtual bool GoToStateCore (System.Windows.FrameworkElement control, System.Windows.FrameworkElement stateGroupsRoot, string stateName, System.Windows.VisualStateGroup group, System.Windows.VisualState state, bool useTransitions);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance bool GoToStateCore(class System.Windows.FrameworkElement control, class System.Windows.FrameworkElement stateGroupsRoot, string stateName, class System.Windows.VisualStateGroup group, class System.Windows.VisualState state, bool useTransitions) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.GoToStateCore(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.String,System.Windows.VisualStateGroup,System.Windows.VisualState,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GoToStateCore (control As FrameworkElement, stateGroupsRoot As FrameworkElement, stateName As String, group As VisualStateGroup, state As VisualState, useTransitions As Boolean) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual bool GoToStateCore(System::Windows::FrameworkElement ^ control, System::Windows::FrameworkElement ^ stateGroupsRoot, System::String ^ stateName, System::Windows::VisualStateGroup ^ group, System::Windows::VisualState ^ state, bool useTransitions);" />
+      <MemberSignature Language="F#" Value="abstract member GoToStateCore : System.Windows.FrameworkElement * System.Windows.FrameworkElement * string * System.Windows.VisualStateGroup * System.Windows.VisualState * bool -&gt; bool&#xA;override this.GoToStateCore : System.Windows.FrameworkElement * System.Windows.FrameworkElement * string * System.Windows.VisualStateGroup * System.Windows.VisualState * bool -&gt; bool" Usage="visualStateManager.GoToStateCore (control, stateGroupsRoot, stateName, group, state, useTransitions)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="control" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="stateGroupsRoot" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="stateName" Type="System.String" />
+        <Parameter Name="group" Type="System.Windows.VisualStateGroup" />
+        <Parameter Name="state" Type="System.Windows.VisualState" />
+        <Parameter Name="useTransitions" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="control">控制項要在之間轉換的兩個狀態。</param>
+        <param name="stateGroupsRoot">包含 <see cref="T:System.Windows.VisualStateManager" /> 的根項目。</param>
+        <param name="stateName">轉換後的狀態名稱。</param>
+        <param name="group">狀態所屬的 <see cref="T:System.Windows.VisualStateGroup" />。</param>
+        <param name="state">轉換後的狀態表示。</param>
+        <param name="useTransitions"><see langword="true" /> 表示使用 <see cref="T:System.Windows.VisualTransition" /> 物件在狀態之間轉換，否則為 <see langword="false" />。</param>
+        <summary>會讓控制項在狀態之間轉換。</summary>
+        <returns>如果控制項成功轉換到新的狀態，則為 <see langword="true" />，否則為 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Windows.VisualStateManager.GoToStateCore%2A>方法所執行的邏輯，適當地啟動及停止與轉換相關聯的分鏡腳本。 當控制項便會呼叫<xref:System.Windows.VisualStateManager.GoToState%2A>若要變更其狀態，<xref:System.Windows.VisualStateManager>會進行下列作業：  
+  
+-   首先，如果<xref:System.Windows.VisualState>控制項正在轉換至已<xref:System.Windows.Media.Animation.Storyboard>，分鏡腳本開始。 然後，如果<xref:System.Windows.VisualState>控制項來自具有<xref:System.Windows.Media.Animation.Storyboard>，分鏡腳本結束。  
+  
+-   如果控制項已在`stateName`狀態，<xref:System.Windows.VisualStateManager.GoToState%2A>會採取任何動作，並傳回`true`。  
+  
+-   如果`stateName`不存在於<xref:System.Windows.Controls.ControlTemplate>的`control`，<xref:System.Windows.VisualStateManager.GoToState%2A>會採取任何動作，並傳回`false`。  
+  
+ 您也可以實作自己<xref:System.Windows.VisualStateManager>提供不同的邏輯狀態之間轉換。 比方說，您可以變更先前所述的邏輯，或者您可以提供自訂動畫類型之間轉換的邏輯。  若要實作<xref:System.Windows.VisualStateManager>，建立類別繼承自<xref:System.Windows.VisualStateManager>，並覆寫<xref:System.Windows.VisualStateManager.GoToStateCore%2A>方法。 若要使用自訂類別，將<xref:System.Windows.VisualStateManager.CustomVisualStateManager%2A>屬性，以您的自訂類型的物件。  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RaiseCurrentStateChanged">
+      <MemberSignature Language="C#" Value="protected void RaiseCurrentStateChanged (System.Windows.VisualStateGroup stateGroup, System.Windows.VisualState oldState, System.Windows.VisualState newState, System.Windows.FrameworkElement control, System.Windows.FrameworkElement stateGroupsRoot);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void RaiseCurrentStateChanged(class System.Windows.VisualStateGroup stateGroup, class System.Windows.VisualState oldState, class System.Windows.VisualState newState, class System.Windows.FrameworkElement control, class System.Windows.FrameworkElement stateGroupsRoot) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.RaiseCurrentStateChanged(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState,System.Windows.FrameworkElement,System.Windows.FrameworkElement)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub RaiseCurrentStateChanged (stateGroup As VisualStateGroup, oldState As VisualState, newState As VisualState, control As FrameworkElement, stateGroupsRoot As FrameworkElement)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void RaiseCurrentStateChanged(System::Windows::VisualStateGroup ^ stateGroup, System::Windows::VisualState ^ oldState, System::Windows::VisualState ^ newState, System::Windows::FrameworkElement ^ control, System::Windows::FrameworkElement ^ stateGroupsRoot);" />
+      <MemberSignature Language="F#" Value="member this.RaiseCurrentStateChanged : System.Windows.VisualStateGroup * System.Windows.VisualState * System.Windows.VisualState * System.Windows.FrameworkElement * System.Windows.FrameworkElement -&gt; unit" Usage="visualStateManager.RaiseCurrentStateChanged (stateGroup, oldState, newState, control, stateGroupsRoot)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stateGroup" Type="System.Windows.VisualStateGroup" />
+        <Parameter Name="oldState" Type="System.Windows.VisualState" />
+        <Parameter Name="newState" Type="System.Windows.VisualState" />
+        <Parameter Name="control" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="stateGroupsRoot" Type="System.Windows.FrameworkElement" />
+      </Parameters>
+      <Docs>
+        <param name="stateGroup">發生 <see cref="E:System.Windows.VisualStateGroup.CurrentStateChanging" /> 事件的物件。</param>
+        <param name="oldState">控制項轉換前的狀態。</param>
+        <param name="newState">控制項轉換後的狀態。</param>
+        <param name="control">正在轉換狀態的控制項。</param>
+        <param name="stateGroupsRoot">包含 <see cref="T:System.Windows.VisualStateManager" /> 的根項目。</param>
+        <summary>對指定的 <see cref="E:System.Windows.VisualStateGroup.CurrentStateChanging" /> 物件引發 <see cref="T:System.Windows.VisualStateGroup" /> 事件。</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ 當<xref:System.Windows.VisualStateGroup>上設定<xref:System.Windows.Controls.ControlTemplate>控制項的`control`參數設定為擁有<xref:System.Windows.Controls.ControlTemplate>。  當<xref:System.Windows.VisualStateGroup>上設定<xref:System.Windows.FrameworkElement>，`control`是`null`，您應該使用`stateGroupsRoot`參數。  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="stateGroupsRoot" /> 為 <see langword="null" />。  
+  
+-或- 
+ <paramref name="newState" /> 為 <see langword="null" />。</exception>
+        <block subset="none" type="overrides"><para>當覆寫<see cref="M:System.Windows.VisualStateManager.RaiseCurrentStateChanged(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState,System.Windows.FrameworkElement,System.Windows.FrameworkElement)" />衍生類別時，請務必呼叫基底類別<see cref="M:System.Windows.VisualStateManager.RaiseCurrentStateChanged(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState,System.Windows.FrameworkElement,System.Windows.FrameworkElement)" />方法，讓已註冊的委派收到事件。</para></block>
+      </Docs>
+    </Member>
+    <Member MemberName="RaiseCurrentStateChanging">
+      <MemberSignature Language="C#" Value="protected void RaiseCurrentStateChanging (System.Windows.VisualStateGroup stateGroup, System.Windows.VisualState oldState, System.Windows.VisualState newState, System.Windows.FrameworkElement control, System.Windows.FrameworkElement stateGroupsRoot);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void RaiseCurrentStateChanging(class System.Windows.VisualStateGroup stateGroup, class System.Windows.VisualState oldState, class System.Windows.VisualState newState, class System.Windows.FrameworkElement control, class System.Windows.FrameworkElement stateGroupsRoot) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.RaiseCurrentStateChanging(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState,System.Windows.FrameworkElement,System.Windows.FrameworkElement)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub RaiseCurrentStateChanging (stateGroup As VisualStateGroup, oldState As VisualState, newState As VisualState, control As FrameworkElement, stateGroupsRoot As FrameworkElement)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void RaiseCurrentStateChanging(System::Windows::VisualStateGroup ^ stateGroup, System::Windows::VisualState ^ oldState, System::Windows::VisualState ^ newState, System::Windows::FrameworkElement ^ control, System::Windows::FrameworkElement ^ stateGroupsRoot);" />
+      <MemberSignature Language="F#" Value="member this.RaiseCurrentStateChanging : System.Windows.VisualStateGroup * System.Windows.VisualState * System.Windows.VisualState * System.Windows.FrameworkElement * System.Windows.FrameworkElement -&gt; unit" Usage="visualStateManager.RaiseCurrentStateChanging (stateGroup, oldState, newState, control, stateGroupsRoot)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stateGroup" Type="System.Windows.VisualStateGroup" />
+        <Parameter Name="oldState" Type="System.Windows.VisualState" />
+        <Parameter Name="newState" Type="System.Windows.VisualState" />
+        <Parameter Name="control" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="stateGroupsRoot" Type="System.Windows.FrameworkElement" />
+      </Parameters>
+      <Docs>
+        <param name="stateGroup">發生 <see cref="E:System.Windows.VisualStateGroup.CurrentStateChanging" /> 事件的物件。</param>
+        <param name="oldState">控制項轉換前的狀態。</param>
+        <param name="newState">控制項轉換後的狀態。</param>
+        <param name="control">正在轉換狀態的控制項。</param>
+        <param name="stateGroupsRoot">包含 <see cref="T:System.Windows.VisualStateManager" /> 的根項目。</param>
+        <summary>對指定的 <see cref="E:System.Windows.VisualStateGroup.CurrentStateChanging" /> 物件引發 <see cref="T:System.Windows.VisualStateGroup" /> 事件。</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ 當<xref:System.Windows.VisualStateGroup>上設定<xref:System.Windows.Controls.ControlTemplate>控制項的`control`參數設定為擁有<xref:System.Windows.Controls.ControlTemplate>。  當<xref:System.Windows.VisualStateGroup>上設定<xref:System.Windows.FrameworkElement>，`control`是`null`，您應該使用`stateGroupsRoot`參數。  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="stateGroupsRoot" /> 為 <see langword="null" />。  
+  
+-或- 
+ <paramref name="newState" /> 為 <see langword="null" />。</exception>
+        <block subset="none" type="overrides"><para>當覆寫<see cref="M:System.Windows.VisualStateManager.RaiseCurrentStateChanging(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState,System.Windows.FrameworkElement,System.Windows.FrameworkElement)" />衍生類別時，請務必呼叫基底類別<see cref="M:System.Windows.VisualStateManager.RaiseCurrentStateChanging(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState,System.Windows.FrameworkElement,System.Windows.FrameworkElement)" />方法，讓已註冊的委派收到事件。</para></block>
+      </Docs>
+    </Member>
+    <Member MemberName="SetCustomVisualStateManager">
+      <MemberSignature Language="C#" Value="public static void SetCustomVisualStateManager (System.Windows.FrameworkElement obj, System.Windows.VisualStateManager value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetCustomVisualStateManager(class System.Windows.FrameworkElement obj, class System.Windows.VisualStateManager value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.VisualStateManager.SetCustomVisualStateManager(System.Windows.FrameworkElement,System.Windows.VisualStateManager)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetCustomVisualStateManager (obj As FrameworkElement, value As VisualStateManager)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetCustomVisualStateManager(System::Windows::FrameworkElement ^ obj, System::Windows::VisualStateManager ^ value);" />
+      <MemberSignature Language="F#" Value="static member SetCustomVisualStateManager : System.Windows.FrameworkElement * System.Windows.VisualStateManager -&gt; unit" Usage="System.Windows.VisualStateManager.SetCustomVisualStateManager (obj, value)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Windows.FrameworkElement" />
+        <Parameter Name="value" Type="System.Windows.VisualStateManager" />
+      </Parameters>
+      <Docs>
+        <param name="obj">要設定屬性的物件。</param>
+        <param name="value">會轉換控制項狀態的可見狀態管理員。</param>
+        <summary>設定 <see cref="P:System.Windows.VisualStateManager.CustomVisualStateManager" /> 附加屬性。</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VisualStateGroupsProperty">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty VisualStateGroupsProperty;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty VisualStateGroupsProperty" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.VisualStateManager.VisualStateGroupsProperty" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly VisualStateGroupsProperty As DependencyProperty " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ VisualStateGroupsProperty;" />
+      <MemberSignature Language="F#" Value=" staticval mutable VisualStateGroupsProperty : System.Windows.DependencyProperty" Usage="System.Windows.VisualStateManager.VisualStateGroupsProperty" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>識別 <see cref="P:System.Windows.VisualStateManager.VisualStateGroups" /> 相依性屬性。</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

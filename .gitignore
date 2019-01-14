@@ -1,0 +1,12 @@
+log/
+obj/
+_site/
+.optemp/
+_themes*/
+_repo.*/
+
+
+
+*/test.md
+*/*/test.md
+.openpublishing.buildcore.ps1
